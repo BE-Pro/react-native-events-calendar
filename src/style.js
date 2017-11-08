@@ -40,11 +40,23 @@ export default function styleConstructor (
     },
     event: {
       position: 'absolute',
-      backgroundColor: '#F0F4FF',
+      backgroundColor: '#D4D4D4',
       opacity: 0.8,
-      borderColor: '#DDE5FD',
-      borderWidth: 1,
-      borderRadius: 5,
+      borderWidth: 0,
+      paddingLeft: 4,
+      minHeight: 25,
+      flex: 1,
+      paddingTop: 5,
+      paddingBottom: 0,
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      overflow: 'hidden',
+      ...theme.event
+    },
+    eventHighlight: {
+      position: 'absolute',
+      backgroundColor: '#007AFF',
+      opacity: 1,
       paddingLeft: 4,
       minHeight: 25,
       flex: 1,
@@ -56,13 +68,25 @@ export default function styleConstructor (
       ...theme.event
     },
     eventTitle: {
-      color: '#615B73',
+      color: 'black',
+      fontWeight: '600',
+      minHeight: 15,
+      ...theme.eventTitle
+    },
+    eventTitleHighlight: {
+      color: 'white',
       fontWeight: '600',
       minHeight: 15,
       ...theme.eventTitle
     },
     eventSummary: {
-      color: '#615B73',
+      color: 'black',
+      fontSize: 12,
+      flexWrap: 'wrap',
+      ...theme.eventSummary
+    },
+    eventSummaryHighlight: {
+      color: 'white',
       fontSize: 12,
       flexWrap: 'wrap',
       ...theme.eventSummary
@@ -72,6 +96,14 @@ export default function styleConstructor (
       fontSize: 10,
       fontWeight: 'bold',
       color: '#615B73',
+      flexWrap: 'wrap',
+      ...theme.eventTimes
+    },
+    eventTimesHighlight: {
+      marginTop: 3,
+      fontSize: 10,
+      fontWeight: 'bold',
+      color: 'white',
       flexWrap: 'wrap',
       ...theme.eventTimes
     },
