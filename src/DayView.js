@@ -54,19 +54,6 @@ export default class DayView extends React.PureComponent {
     }, 1)
   }
 
-  _renderRedLine() {
-      const offset = CALENDER_HEIGHT / 24
-      const { format24h } = this.props
-      const { width, styles } = this.props
-      const timeNowHour = moment().hour()
-      const timeNowMin = moment().minutes()
-      return (
-          <View key={`timeNow`}
-            style={[styles.lineNow, { top: offset * timeNowHour + offset * timeNowMin / 60, width: width - 20 }]}
-          />
-    )
-  }
-
   _renderLines () {
     const offset = CALENDER_HEIGHT / 24
     const { format24h } = this.props
@@ -135,33 +122,31 @@ export default class DayView extends React.PureComponent {
       // However it would make sense to overflow the title to a new line if needed
       const numberOfLines = Math.floor(event.height / TEXT_LINE_HEIGHT)
       const formatTime = this.props.format24h ? 'HH:mm' : 'hh:mm A'
-      const timeNow = moment()
-      const eventInTimeNow = timeNow.isBetween(event.start, event.end)
       return (
-          <View
-            key={i}
-            style={(eventInTimeNow)?[styles.eventHighlight, style]:[styles.event, style]}
-          >
-            {this.props.renderEvent ? this.props.renderEvent(event) : (
-              <TouchableOpacity
-                activeOpacity={0.5}
-                onPress={() => this._onEventTapped(this.props.events[event.index])}
-              >
-                <Text numberOfLines={1} style={(eventInTimeNow)?styles.eventTitleHighlight:styles.eventTitle}>{event.title || 'Event'}</Text>
-                {numberOfLines > 1
-                  ? <Text
-                    numberOfLines={numberOfLines - 1}
-                    style={(eventInTimeNow)?[styles.eventSummaryHighlight]:[styles.eventSummary]}
-                  >
-                    {event.summary || ' '}
-                  </Text>
-                  : null}
-                {numberOfLines > 2
-                  ? <Text style={(eventInTimeNow)?styles.eventTimesHighlight:styles.eventTimes} numberOfLines={1}>{moment(event.start).format(formatTime)} - {moment(event.end).format(formatTime)}</Text>
-                  : null}
-              </TouchableOpacity>
-            )}
-          </View>
+        <View
+          key={i}
+          style={[styles.event, style]}
+        >
+          {this.props.renderEvent ? this.props.renderEvent(event) : (
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={() => this._onEventTapped(this.props.events[event.index])}
+            >
+              <Text numberOfLines={1} style={styles.eventTitle}>{event.title || 'Event'}</Text>
+              {numberOfLines > 1
+                ? <Text
+                  numberOfLines={numberOfLines - 1}
+                  style={[styles.eventSummary]}
+                >
+                  {event.summary || ' '}
+                </Text>
+                : null}
+              {numberOfLines > 2
+                ? <Text style={styles.eventTimes} numberOfLines={1}>{moment(event.start).format(formatTime)} - {moment(event.end).format(formatTime)}</Text>
+                : null}
+            </TouchableOpacity>
+          )}
+        </View>
       )
     })
 
@@ -182,7 +167,6 @@ export default class DayView extends React.PureComponent {
       >
         {this._renderLines()}
         {this._renderEvents()}
-        {this._renderRedLine()}
       </ScrollView>
     )
   }
