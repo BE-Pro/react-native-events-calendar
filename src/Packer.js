@@ -37,7 +37,7 @@ function expand (ev, column, columns) {
 }
 
 function pack (columns, width, calculatedEvents) {
-  var colLength = 3 //columns.length
+  var colLength = columns.length
 
   for (var i = 0; i < colLength; i++) {
     var col = columns[i]
