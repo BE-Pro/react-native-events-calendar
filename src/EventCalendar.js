@@ -20,7 +20,7 @@ export default class EventCalendar extends React.Component {
     this.styles = styleConstructor(props.styles)
     this.state = {
       date: moment(this.props.initDate),
-      index: this.props.size
+      index: this.props.size,
     }
   }
 
@@ -73,6 +73,13 @@ export default class EventCalendar extends React.Component {
     this.setState({ index, date })
   }
 
+  componentDidMount() {
+     let wait = new Promise((resolve) => setTimeout(resolve, 500));
+     wait.then( () => {
+        this.refs.calendar.scrollToIndex({index: this.state.index, animated: false});
+     });
+  }
+
   render() {
     const {
       width,
@@ -96,7 +103,7 @@ export default class EventCalendar extends React.Component {
           ref='calendar'
           windowSize={2}
           initialNumToRender={2}
-          initialScrollIndex={this.props.size}
+          initialScrollIndex={this.state.index}
           data={events}
           getItemCount={() => this.props.size * 2}
           getItem={this._getItem.bind(this)}
@@ -104,6 +111,7 @@ export default class EventCalendar extends React.Component {
           getItemLayout={this._getItemLayout.bind(this)}
           horizontal
           pagingEnabled
+          showsHorizontalScrollIndicator={false}
           renderItem={this._renderItem.bind(this)}
           style={{ width: width }}
           onMomentumScrollEnd={(event) => {
