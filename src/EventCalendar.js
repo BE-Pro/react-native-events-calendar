@@ -4,7 +4,8 @@ import {
   View,
   TouchableOpacity,
   Image,
-  Text
+  Text,
+  Alert
 } from 'react-native'
 import _ from 'lodash'
 import moment from 'moment'
@@ -94,7 +95,18 @@ export default class EventCalendar extends React.Component {
           <TouchableOpacity onPress={() => this._goToPage(this.state.index - 1)}>
             <Image source={require('./back.png')} style={this.styles.arrow} />
           </TouchableOpacity>
-          <Text style={this.styles.headerText}>{this.state.date.format(formatHeader || 'DD MMMM YYYY')}</Text>
+          <TouchableOpacity onPress={() => {
+            Alert.alert(
+               'Go Back To Today?',
+               '',
+               [
+                  {text: 'Yes', onPress: () => {this.refs.calendar.scrollToIndex({index: this.props.size, animated: true})}},
+                  {text: 'Cancel'}
+               ]
+            );
+          }}>
+            <Text style={this.styles.headerText}>{this.state.date.format(formatHeader || 'DD MMMM YYYY')}</Text>
+          </TouchableOpacity>
           <TouchableOpacity onPress={() => this._goToPage(this.state.index + 1)}>
             <Image source={require('./forward.png')} style={this.styles.arrow} />
           </TouchableOpacity>
